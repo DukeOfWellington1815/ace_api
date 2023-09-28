@@ -4,24 +4,17 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const users = [
-  { id: 1, name: 'John' },
-  { id: 2, name: 'Jane' },
-];
 
-app.get('/api/users', (req, res) => {
-  res.json(users);
-});
+app.get('/api/temp', (req, res) => {
+  const c = parseFloat(req.query.celsius);
 
-app.post('/api/users', (req, res) => {
-  const newUser = {
-    id: users.length + 1,
-    name: req.body.name,
-  };
+  if (isNaN(c)) {
+    return res.status(400).json({ error: 'Invalid input.' });
+  }
 
-  users.push(newUser);
+  const k = c + 273.15;
 
-  res.status(201).json(newUser);
+  res.json({ k, c });
 });
 
 app.listen(port, () => {
