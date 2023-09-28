@@ -46,6 +46,24 @@ app.get('/api/prime', (req, res) => {
   res.json({ primes });
 });
 
+function fibonacci(n) {
+  if (n <= 0) return 0;
+  if (n === 1) return 1;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+app.get('/api/fibonacci', (req, res) => {
+  const n = parseInt(req.query.n);
+
+  if (isNaN(n) || n < 0) {
+    return res.status(400).json({ error: 'Invalid input.' });
+  }
+
+  const result = fibonacci(n);
+
+  res.json({ number: result });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
